@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 
 project(COPY LANGUAGES CXX CUDA)
 # add_compile_options(-G)
-add_compile_options(--generate-line-info --keep)
+# add_compile_options(--generate-line-info --keep)
 set(CUTE_CCE_FRWD cute_cce_frwd)
 
 
