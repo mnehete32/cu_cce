@@ -322,7 +322,7 @@ __global__ void cce_backward_kernel(ProblemShape shape_BTVC,
     cute::clear(tCrA);
 
     auto tCrB_shape = tCrB.shape();
-    auto tCrB_new   = cute::make_tensor(
+    auto tCrB_T     = cute::make_tensor(
         tCrB.data(),
         cute::make_shape(cute::get<0>(tCrB_shape), cute::get<2>(tCrB_shape), cute::get<1>(tCrB_shape)),
         cute::LayoutLeft{});
@@ -374,7 +374,7 @@ __global__ void cce_backward_kernel(ProblemShape shape_BTVC,
                 // }
             }
 
-            cute::gemm(tiled_mma, tCrC, tCrB_new, tCrA);
+            cute::gemm(tiled_mma, tCrC, tCrB_T, tCrA);
 
             for (int i = 0; i < cute::size<1>(tCrA); i++) {
                 atomicCasUpdate(&tdAgdA(0, i, mma_idx_k, tile_idx_k), tCrA(0, i, mma_idx_k));
@@ -393,13 +393,13 @@ __global__ void cce_backward_kernel(ProblemShape shape_BTVC,
     cute::clear(tCrB);
 
     auto tCrC_shape = tCrC.shape();
-    auto tCrC_new   = cute::make_tensor(
+    auto tCrC_T     = cute::make_tensor(
         tCrC.data(),
         cute::make_shape(cute::get<0>(tCrC_shape), cute::get<2>(tCrC_shape), cute::get<1>(tCrC_shape)),
         cute::LayoutLeft{});
 
     auto tCrA_shape = tCrA.shape();
-    auto tCrA_new   = cute::make_tensor(
+    auto tCrA_T     = cute::make_tensor(
         tCrA.data(),
         cute::make_shape(cute::get<0>(tCrA_shape), cute::get<2>(tCrA_shape), cute::get<1>(tCrA_shape)),
         cute::LayoutLeft{});
@@ -451,7 +451,7 @@ __global__ void cce_backward_kernel(ProblemShape shape_BTVC,
                 // }
             }
 
-            cute::gemm(tiled_mma, tCrC_new, tCrA_new, tCrB);
+            cute::gemm(tiled_mma, tCrC_T, tCrA_T, tCrB);
 
             for (int i = 0; i < cute::size<1>(tCrB); i++) {
                 atomicCasUpdate(&tdBgdB(0, i, mma_idx_k, tile_idx_k), tCrB(0, i, mma_idx_k));
