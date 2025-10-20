@@ -22,7 +22,7 @@ int main() {
     cutlass::HostTensor<Element, cutlass::layout::RowMajor> lse({ BT, cute::_1{} });
     // dlse({ BT, cute::_1{} });
 
-    cutlass::HostTensor<int, cutlass::layout::RowMajor> Inds({ BT, cute::_1{} });
+    cutlass::HostTensor<long, cutlass::layout::RowMajor> Inds({ BT, cute::_1{} });
 
     float dlse = 1.0f / ((float) BT);
     for (int i = 0; i < BT; i++) {

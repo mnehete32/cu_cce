@@ -16,14 +16,14 @@
 using namespace std;
 
 template <typename T> class IndexedMatrix {
-    const T *   data;        // contiguous 2D data
-    int         rows, cols;  // shape of the matrix
-    const int * index;       // pointer to row indices
-    int         indexCount;  // number of selected rows
+    const T *    data;        // contiguous 2D data
+    int          rows, cols;  // shape of the matrix
+    const long * index;       // pointer to row indices
+    int          indexCount;  // number of selected rows
 
   public:
     // Constructor
-    __host__ __device__ IndexedMatrix(const T * d, int r, int c, const int * idx, int n) :
+    __host__ __device__ IndexedMatrix(const T * d, int r, int c, const long * idx, int n) :
         data(d),
         rows(r),
         cols(c),
@@ -320,7 +320,7 @@ template <typename Element>
 void idx_neg_dot(float *         indexNegDot,
                  const Element * embd,
                  const Element * classifier,
-                 const int *     Inds,
+                 const long *    Inds,
                  const int       BT,
                  const int       V,
                  const int       C) {
@@ -386,10 +386,10 @@ void idx_neg_dot(float *         indexNegDot,
         thread_layout_A,
         cute::make_layout(cute::make_shape(cute::_1{}, cute::Int<num_vec_elems>{}), cute::LayoutRight{}));
 
-    cute::print(gmem_tiled_copy_A);
+    // cute::print(gmem_tiled_copy_A);
 
-    auto tiled_mma = cute::make_tiled_mma(cute::UniversalFMA<Element, Element, float>{}, thread_layout_C);
-    cute::print(tiled_mma);
+    auto       tiled_mma  = cute::make_tiled_mma(cute::UniversalFMA<Element, Element, float>{}, thread_layout_C);
+    // cute::print(tiled_mma);
     const dim3 block_dims = static_cast<unsigned int>(cute::size(thread_layout_C));
     const dim3 grid_dims  = static_cast<unsigned int>(cute::size(cute::ceil_div(BT, bBT)));
 

@@ -452,7 +452,7 @@ void cce_backward(const float     dlse,
                   const Element * classifier,
                   Element *       d_embd,
                   Element *       d_classifier,
-                  const int *     Inds,
+                  const long *    Inds,
                   const int       BT,
                   const int       V,
                   const int       C) {

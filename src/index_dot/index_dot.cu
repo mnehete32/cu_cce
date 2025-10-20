@@ -16,7 +16,7 @@ int main() {
     cutlass::HostTensor<Element, cutlass::layout::RowMajor> classifier({ V, C });
 
     cutlass::HostTensor<Element, cutlass::layout::RowMajor> indexNegDot({ BT, cute::_1{} });
-    cutlass::HostTensor<int, cutlass::layout::RowMajor>     Inds({ BT, cute::_1{} });
+    cutlass::HostTensor<long, cutlass::layout::RowMajor>    Inds({ BT, cute::_1{} });
 
     for (int i = 0; i < BT; i++) {
         for (int j = 0; j < C; j++) {
